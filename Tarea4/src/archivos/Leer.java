@@ -6,9 +6,13 @@
 package archivos;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Iterator;
 import modelo.Persona;
 
 /**
@@ -18,13 +22,19 @@ import modelo.Persona;
 public class Leer {
 
     private BufferedReader buffer;
+    private FileReader reader;
+    Iterator iter;
 
     public void open(String path) throws FileNotFoundException {
-        buffer = new BufferedReader(new FileReader(path));
+        reader = new FileReader(path);
+        buffer = new BufferedReader(reader);
+        iter = (Iterator) reader;
+
     }
 
     public void close() throws IOException {
         buffer.close();
+        reader.close();
     }
 
     private Persona readLine() throws IOException {
@@ -32,13 +42,14 @@ public class Leer {
         if (text != null) {
             String vector[] = text.split(",");
             int num1 = Integer.parseInt(vector[0]);
+
             int num2 = Integer.parseInt(vector[1]);
             int ced = Integer.parseInt(vector[2]);
             int num4 = Integer.parseInt(vector[3]);
             String nombre = vector[4];
             String apellido1 = vector[5];
             String apellido2 = vector[6];
-            
+
             return new Persona(num1, num2, ced, num4, nombre, apellido1, apellido2);
         } else {
             return null;
@@ -49,6 +60,15 @@ public class Leer {
         for (int i = 0; i < numHilo; i++) {
             buffer.readLine();
         }
+        
+        while (iter.hasNext()) {
+            Persona pers = readLine();
+            while (pers != null) {
+                //array.agregar
+                pers = readLine();
+            }
+        }
+
     }
 
 }//fin clase
