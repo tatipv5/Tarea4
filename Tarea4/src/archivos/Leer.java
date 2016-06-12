@@ -58,15 +58,21 @@ public class Leer {
 
     public void read(int numHilo) throws IOException {
         for (int i = 0; i < numHilo; i++) {
-            buffer.readLine();
+           if(iter.hasNext()) {
+               buffer.readLine();
+           }
         }
-        
+
         while (iter.hasNext()) {
             Persona pers = readLine();
             while (pers != null) {
                 //array.agregar
                 pers = readLine();
             }
+        }
+        Persona pers = readLine();
+        while (pers != null) {
+            //array.agregar
         }
 
     }
