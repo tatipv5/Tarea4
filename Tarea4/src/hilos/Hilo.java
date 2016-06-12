@@ -9,9 +9,20 @@ package hilos;
  *
  * @author tati
  */
-public class Hilo {
+public class Hilo extends Thread {
 
-    public Hilo() {
+    private final Lock lock;
+    private final int id;
+    public Hilo(Lock lock, String name, int id) {
+        super(name);
+        this.lock = lock;
+        this.id=id;
     }
     
+    @Override
+    public void run(){
+        System.out.println("HILO");
+        
+    }
+
 }
