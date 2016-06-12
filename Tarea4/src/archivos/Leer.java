@@ -7,12 +7,14 @@ package archivos;
 
 import java.io.BufferedReader;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Iterator;
+import modelo.ArrayManager;
 import modelo.Persona;
 
 /**
@@ -25,10 +27,10 @@ public class Leer {
     private FileReader reader;
     Iterator iter;
 
-    public void open(String path) throws FileNotFoundException {
+    public void open(File path) throws FileNotFoundException {
         reader = new FileReader(path);
         buffer = new BufferedReader(reader);
-        iter = (Iterator) reader;
+        iter = (Iterator) buffer;
 
     }
 
@@ -57,22 +59,36 @@ public class Leer {
     }
 
     public void read(int numHilo) throws IOException {
+        final int I = 10;
+        int j = 1;
         for (int i = 0; i < numHilo; i++) {
-           if(iter.hasNext()) {
-               buffer.readLine();
-           }
+            if (iter.hasNext()) {
+                buffer.readLine();
+            }
         }
 
-        while (iter.hasNext()) {
+        while (iter.hasNext() && j <= I) {
+            Persona pers = readLine();
+            j++;
+            while (pers != null && j <= I) {
+                ArrayManager array = ArrayManager.getInstance();
+                array.agregar(pers);
+                pers = readLine();
+                j++;
+            }
+            for (int i = 0; i < 60; i++) {
+                if (iter.hasNext()) {
+                    buffer.readLine();
+                }
+            }
+        }
+        if (j <= I) {
             Persona pers = readLine();
             while (pers != null) {
                 //array.agregar
-                pers = readLine();
+                ArrayManager array = ArrayManager.getInstance();
+                array.agregar(pers);
             }
-        }
-        Persona pers = readLine();
-        while (pers != null) {
-            //array.agregar
         }
 
     }

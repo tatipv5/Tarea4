@@ -5,16 +5,19 @@
  */
 package vista;
 
+import controlador.Controlador;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JFileChooser;
+import modelo.ArrayManager;
 
 /**
  *
  * @author tati
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-
+       
+    Controlador c;
     /**
      * Creates new form VentanaPrincipal
      */
@@ -77,41 +80,44 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //es el que lee del archivo, el archivo grande.
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int returnVal = jFileChooser1.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = jFileChooser1.getSelectedFile();
-            //aqui va lo que hace archivo
-            System.out.println("adios");
+            c=new Controlador();
+            c.iniciarHilos(file);
+            System.out.println(ArrayManager.getInstance().devolverDiez());
+            
         } else {
             System.out.println("File access cancelled by user.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+    //este es el que dice donde se va a guardar el archivo nuevo.
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //esto es para llamar al filechooser   
         int result;
-        
+
         //es donde se va a situar el coso
-    jFileChooser1.setCurrentDirectory(new java.io.File("."));
-    //titulo de la ventana que sale para seleccionar archivos
-    jFileChooser1.setDialogTitle("Seleccione el directorio");
-    //seleciona que tipo de archivo se puede seleccionar 
-    jFileChooser1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-    //
-    // disable the "All files" option.
-    //
-    jFileChooser1.setAcceptAllFileFilterUsed(false);
-    //    
-    if (jFileChooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
-      System.out.println("getCurrentDirectory(): " 
-         +  jFileChooser1.getCurrentDirectory());
-      System.out.println("getSelectedFile() : " 
-         +  jFileChooser1.getSelectedFile());
-      }
-    else {
-      System.out.println("No Selection ");
-      }
+        jFileChooser1.setCurrentDirectory(new java.io.File("."));
+        //titulo de la ventana que sale para seleccionar archivos
+        jFileChooser1.setDialogTitle("Seleccione el directorio");
+        //seleciona que tipo de archivo se puede seleccionar 
+        jFileChooser1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        //
+        // disable the "All files" option.
+        //
+        jFileChooser1.setAcceptAllFileFilterUsed(false);
+        //    
+        if (jFileChooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            
+                    //jFileChooser1.getCurrentDirectory()); llamar controlador y mandarle
+          
+        } else {
+            System.out.println("No Selection ");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

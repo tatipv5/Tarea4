@@ -10,7 +10,8 @@ package modelo;
  * @author tati
  */
 public class Persona {
-    private int num1,num2,ced,nun4;
+
+    private int num1, num2, ced, nun4;
     private String nombre, apellido1, apellido2;
 
     public Persona(int num1, int num2, int ced, int nun4, String nombre, String apellido1, String apellido2) {
