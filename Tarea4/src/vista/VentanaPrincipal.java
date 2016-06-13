@@ -6,6 +6,7 @@
 package vista;
 
 import controlador.Controlador;
+import hilos.Lock;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JFileChooser;
@@ -16,8 +17,10 @@ import modelo.ArrayManager;
  * @author tati
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-       
+
     Controlador c;
+    Lock lock;
+
     /**
      * Creates new form VentanaPrincipal
      */
@@ -82,19 +85,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     //es el que lee del archivo, el archivo grande.
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        jFileChooser1.setCurrentDirectory(new java.io.File("."));
         int returnVal = jFileChooser1.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = jFileChooser1.getSelectedFile();
-            c=new Controlador();
+            c = new Controlador(lock = new Lock());
             c.iniciarHilos(file);
-            System.out.println(ArrayManager.getInstance().devolverDiez());
-            
+
         } else {
             System.out.println("File access cancelled by user.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
     //este es el que dice donde se va a guardar el archivo nuevo.
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //esto es para llamar al filechooser   
@@ -112,9 +115,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jFileChooser1.setAcceptAllFileFilterUsed(false);
         //    
         if (jFileChooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            
-                    //jFileChooser1.getCurrentDirectory()); llamar controlador y mandarle
-          
+
+            //jFileChooser1.getCurrentDirectory()); llamar controlador y mandarle
         } else {
             System.out.println("No Selection ");
         }

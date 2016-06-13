@@ -11,49 +11,61 @@ package modelo;
  */
 public class Persona {
 
-    private int num1, num2, ced, nun4;
+    private String ced, codElec, caducidad, junta;
+    private char genero;
     private String nombre, apellido1, apellido2;
 
-    public Persona(int num1, int num2, int ced, int nun4, String nombre, String apellido1, String apellido2) {
-        this.num1 = num1;
-        this.num2 = num2;
+    public Persona(String ced, String codElec, char genero, String caducidad, String junta, String nombre, String apellido1, String apellido2) {
         this.ced = ced;
-        this.nun4 = nun4;
+        this.codElec = codElec;
+        this.caducidad = caducidad;
+        this.junta = junta;
+        this.genero = genero;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
     }
 
-    public int getNum1() {
-        return num1;
-    }
-
-    public void setNum1(int num1) {
-        this.num1 = num1;
-    }
-
-    public int getNum2() {
-        return num2;
-    }
-
-    public void setNum2(int num2) {
-        this.num2 = num2;
-    }
-
-    public int getCed() {
+    public String getCed() {
         return ced;
     }
 
-    public void setCed(int ced) {
+    public void setCed(String ced) {
         this.ced = ced;
     }
 
-    public int getNun4() {
-        return nun4;
+    public String getCodElec() {
+        return codElec;
     }
 
-    public void setNun4(int nun4) {
-        this.nun4 = nun4;
+    public void setCodElec(String codElec) {
+        this.codElec = codElec;
+    }
+
+    public String getCaducidad() {
+        return caducidad;
+    }
+
+    public void setCaducidad(String caducidad) {
+        this.caducidad = caducidad;
+    }
+
+    public String getJunta() {
+        return junta;
+    }
+
+    public void setJunta(String junta) {
+        this.junta = junta;
+    }
+
+  
+
+    public char getGenero() {
+        return genero;
+    }
+
+    public void setGenero(char genero) {
+        this.genero = genero;
     }
 
     public String getNombre() {
@@ -82,6 +94,7 @@ public class Persona {
 
     @Override
     public String toString() {
-        return "Persona{" + "num1=" + num1 + ", num2=" + num2 + ", ced=" + ced + ", nun4=" + nun4 + ", nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + '}';
+        return "Persona{" + "ced=" + ced + ", codElec=" + codElec + ", caducidad=" + caducidad + ", junta=" + junta + ", genero=" + genero + ", nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + '}';
     }
+
 }

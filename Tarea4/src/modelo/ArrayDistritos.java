@@ -6,22 +6,21 @@
 package modelo;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  *
  * @author tati
  */
-public class ArrayManager {
+public class ArrayDistritos {
+    
+    private ArrayList<Distrito> array = new ArrayList<>();
+    private static ArrayDistritos instancia = new ArrayDistritos();
 
-    private ArrayList<Persona> array = new ArrayList<>();
-    private static ArrayManager instancia = new ArrayManager();
-
-    private ArrayManager() {
+    private ArrayDistritos() {
 
     }
 
-    public static ArrayManager getInstance() {
+    public static ArrayDistritos getInstance() {
         return instancia;
     }
 
@@ -39,12 +38,11 @@ public class ArrayManager {
         return text;
     }
 
-    public synchronized void agregar(Persona e) {
+    public synchronized void agregar(Distrito e) {
         if (array != null) {
             array.add(e);
         }
 
     }
     
-    //public void 
 }

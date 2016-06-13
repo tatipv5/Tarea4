@@ -21,17 +21,17 @@ import modelo.Persona;
  *
  * @author tati
  */
-public class Leer {
+public class Leer{
 
     private BufferedReader buffer;
     private FileReader reader;
-    Iterator iter;
+    //Iterator iter;
+//     private boolean finaliced;
 
     public void open(File path) throws FileNotFoundException {
         reader = new FileReader(path);
         buffer = new BufferedReader(reader);
-        iter = (Iterator) buffer;
-
+//        iter = (Iterator) reader;
     }
 
     public void close() throws IOException {
@@ -43,16 +43,17 @@ public class Leer {
         String text = buffer.readLine();
         if (text != null) {
             String vector[] = text.split(",");
-            int num1 = Integer.parseInt(vector[0]);
+            String ced =vector[0];
 
-            int num2 = Integer.parseInt(vector[1]);
-            int ced = Integer.parseInt(vector[2]);
-            int num4 = Integer.parseInt(vector[3]);
-            String nombre = vector[4];
-            String apellido1 = vector[5];
-            String apellido2 = vector[6];
+            String codElec =vector[1];
+            String genero =vector[2];
+             String caducidad =vector[3];
+             String junta =vector[4];
+            String nombre = vector[5];
+            String apellido1 = vector[6];
+            String apellido2 = vector[7];
 
-            return new Persona(num1, num2, ced, num4, nombre, apellido1, apellido2);
+            return new Persona(ced, codElec, genero.charAt(0), caducidad, junta, nombre, apellido1, apellido2);
         } else {
             return null;
         }
@@ -62,28 +63,28 @@ public class Leer {
         final int I = 10;
         int j = 1;
         for (int i = 0; i < numHilo; i++) {
-            if (iter.hasNext()) {
-                buffer.readLine();
-            }
+//            if (iter.hasNext()) {
+            buffer.readLine();
+//            }
         }
 
-        while (iter.hasNext() && j <= I) {
-            Persona pers = readLine();
+//        while (iter.hasNext() && j <= I) {
+        Persona pers = readLine();
+        j++;
+        while (pers != null && j <= I) {
+            ArrayManager array = ArrayManager.getInstance();
+            array.agregar(pers);
+            pers = readLine();
             j++;
-            while (pers != null && j <= I) {
-                ArrayManager array = ArrayManager.getInstance();
-                array.agregar(pers);
-                pers = readLine();
-                j++;
-            }
-            for (int i = 0; i < 60; i++) {
-                if (iter.hasNext()) {
-                    buffer.readLine();
-                }
-            }
         }
+        for (int i = 0; i < 60; i++) {
+//                if (iter.hasNext()) {
+            buffer.readLine();
+//                }
+        }
+//    }
         if (j <= I) {
-            Persona pers = readLine();
+            pers = readLine();
             while (pers != null) {
                 //array.agregar
                 ArrayManager array = ArrayManager.getInstance();
@@ -92,5 +93,4 @@ public class Leer {
         }
 
     }
-
 }//fin clase

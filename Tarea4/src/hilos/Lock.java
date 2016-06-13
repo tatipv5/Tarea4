@@ -23,7 +23,7 @@ public class Lock {
 
     public synchronized void unlock() {
         isLocked = false;
-        notify();
+        notifyAll();
     }
 
 }
