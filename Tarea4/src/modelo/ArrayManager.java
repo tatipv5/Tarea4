@@ -30,7 +30,7 @@ public class ArrayManager {
 //        Iterator iter=array.iterator();
 //        while(iter.hasNext()){
 //           text+= iter.next()+"\n";
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 120; i++) {
             if (array.get(i) != null) {
                 text += array.get(i) + "\n";
             }
@@ -45,6 +45,12 @@ public class ArrayManager {
         }
 
     }
+    
+    public int tamanoArray(){
+       return array.size();
+            
+        }
+    
     
     //public void 
 }

@@ -61,36 +61,29 @@ public class Leer{
 
     public void read(int numHilo) throws IOException {
         final int I = 10;
-        int j = 1;
+        int j = 0;
         for (int i = 0; i < numHilo; i++) {
-//            if (iter.hasNext()) {
             buffer.readLine();
-//            }
         }
-
-//        while (iter.hasNext() && j <= I) {
+        
         Persona pers = readLine();
         j++;
-        while (pers != null && j <= I) {
+        while (pers != null || j <= I) {
             ArrayManager array = ArrayManager.getInstance();
             array.agregar(pers);
             pers = readLine();
             j++;
         }
         for (int i = 0; i < 60; i++) {
-//                if (iter.hasNext()) {
             buffer.readLine();
-//                }
         }
-//    }
-        if (j <= I) {
-            pers = readLine();
-            while (pers != null) {
-                //array.agregar
-                ArrayManager array = ArrayManager.getInstance();
-                array.agregar(pers);
-            }
-        }
+//        if (j <= I) {
+//            pers = readLine();
+//            while (pers != null) {
+//                ArrayManager array = ArrayManager.getInstance();
+//                array.agregar(pers);
+//            }
+//        }
 
     }
 }//fin clase

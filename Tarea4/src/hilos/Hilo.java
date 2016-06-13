@@ -42,14 +42,16 @@ public class Hilo extends Thread {
             leer.read(id);
             leer.close();
             System.out.println("termino de leer el hilo " + super.getName() + " " + id);
-            controlador.aumentarContador();
-            this.lock.lock(); 
+            controlador.aumentarContador(this);
+            //this.lock.lock(); 
+           //wait();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Hilo.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("se despcho el hilo"+super.getName() + " " + id);
+            //Logger.getLogger(Hilo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Hilo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Hilo.class.getName()).log(Level.SEVERE, null, ex);
+             System.out.println("se despicho el hilo"+super.getName() + " " + id);
+            //Logger.getLogger(Hilo.class.getName()).log(Level.SEVERE, null, ex);
+       
         }
     }
 
