@@ -25,18 +25,18 @@ public class Hilo extends Thread {
     private File path;
     private Controlador controlador;
 
-    public Hilo(Lock lock, String name, int id, File path, Controlador controlador) {
+    public Hilo(Lock lock, String name, int id, File path, Controlador controlador, Leer leer) {
         super(name);
         this.lock = lock;
         this.id = id;
         this.path = path;
         this.controlador = controlador;
+        this.leer=leer;
     }
 
     @Override
     public void run() {
         System.out.println("se ejecuta el hilo " + super.getName() + " " + id);
-        leer = new Leer();
         try {
             leer.open(path);
             leer.read(id);
@@ -52,6 +52,8 @@ public class Hilo extends Thread {
              System.out.println("se despicho el hilo"+super.getName() + " " + id);
             //Logger.getLogger(Hilo.class.getName()).log(Level.SEVERE, null, ex);
        
+        } catch (Exception ex) {
+            Logger.getLogger(Hilo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

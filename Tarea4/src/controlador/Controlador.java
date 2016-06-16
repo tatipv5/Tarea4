@@ -5,12 +5,16 @@
  */
 package controlador;
 
+import archivos.Escritor;
+import archivos.Leer;
+import archivos.LeerDistElec;
 import hilos.Hilo;
 import hilos.Lock;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import modelo.ArrayManager;
 
 /**
  *
@@ -26,19 +30,26 @@ public class Controlador {
     private Hilo hilo6;
     private int contador = 0;
     private Lock lock;
-  //  private static boolean b=false;
-    public Controlador(Lock lock) {
+    
+   private LeerDistElec leerD;
+   private Leer leer;
+   private Escritor escritor;
+    
+    public Controlador(Lock lock, LeerDistElec leerD, Leer leer, Escritor escritor) {
         this.lock = lock;
+        this.leerD = leerD;
+        this.leer = leer;
+        this.escritor = escritor;
     }
 
     public void iniciarHilos(File file) {
        
-            hilo1 = new Hilo(lock, "Hilo1", 0, file, this);
-            hilo2 = new Hilo(lock, "Hilo2", 10, file, this);
-            hilo3 = new Hilo(lock, "Hilo3", 20, file, this);
-            hilo4 = new Hilo(lock, "Hilo4", 30, file, this);
-            hilo5 = new Hilo(lock, "Hilo5", 40, file, this);
-            hilo6 = new Hilo(lock, "Hilo6", 50, file, this);
+            hilo1 = new Hilo(lock, "Hilo1", 0, file, this, leer);
+            hilo2 = new Hilo(lock, "Hilo2", 10, file, this, leer);
+            hilo3 = new Hilo(lock, "Hilo3", 20, file, this, leer);
+            hilo4 = new Hilo(lock, "Hilo4", 30, file, this, leer);
+            hilo5 = new Hilo(lock, "Hilo5", 40, file, this, leer);
+            hilo6 = new Hilo(lock, "Hilo6", 50, file, this, leer);
             
             hilo1.start();
             hilo2.start();
@@ -46,26 +57,30 @@ public class Controlador {
             hilo4.start();
             hilo5.start();
             hilo6.start();
-           
-//            hilo1.join();
-//            hilo2.join();
-//            hilo3.join();
-//            hilo4.join();
-//            hilo5.join();
-//            hilo6.join();
+            int contador2 = 0;
             while (contador< 6) {
-//                System.out.println("kgugggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"+contador);
-//                contador=contador;
+                contador2++;
+                if(contador2 == 2000) {
+                System.out.println("Esperando...");
+                }
             }
-            //lock.unlock();
-            //notifyAll();
-            System.out.println(ArrayManager.getInstance().devolverDiez());
-            System.out.println(ArrayManager.getInstance().tamanoArray());
-        
     }
 
     public void aumentarContador(Thread t) {
         System.out.println(t.getName()+"aumento");
         contador++;
+    }
+    
+    public void leerDistrito(File file) throws IOException{
+        leerD.open(file);
+        leerD.read();
+        leerD.close();
+    }
+    
+    public void crearArchivo(String filePath) throws FileNotFoundException  {
+        String provincias = leer.crearStringProvincias();
+        String canton = leer.crearStringCanton();
+        escritor.with_obj_in_file_xml(filePath, provincias);
+        escritor.with_obj_in_file_xml(filePath, canton);
     }
 }

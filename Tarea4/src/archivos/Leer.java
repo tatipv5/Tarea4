@@ -6,32 +6,30 @@
 package archivos;
 
 import java.io.BufferedReader;
-import java.io.EOFException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Iterator;
-import modelo.ArrayManager;
+import java.util.ArrayList;
+import modelo.ArrayDistritos;
+import modelo.Distrito;
 import modelo.Persona;
 
 /**
  *
  * @author tati
  */
-public class Leer{
+public class Leer {
 
     private BufferedReader buffer;
     private FileReader reader;
-    //Iterator iter;
-//     private boolean finaliced;
+    private ArrayList<ObjetoLugar> provincias = new ArrayList<>();
+    private ArrayList<ObjetoLugar> canton = new ArrayList<>();
+    private ArrayDistritos listD = ArrayDistritos.getInstance();
 
     public void open(File path) throws FileNotFoundException {
         reader = new FileReader(path);
         buffer = new BufferedReader(reader);
-//        iter = (Iterator) reader;
     }
 
     public void close() throws IOException {
@@ -42,48 +40,152 @@ public class Leer{
     private Persona readLine() throws IOException {
         String text = buffer.readLine();
         if (text != null) {
+
             String vector[] = text.split(",");
-            String ced =vector[0];
+            String ced = vector[0];
+            String codElec = vector[1];
+            String genero = vector[2];
 
-            String codElec =vector[1];
-            String genero =vector[2];
-             String caducidad =vector[3];
-             String junta =vector[4];
-            String nombre = vector[5];
-            String apellido1 = vector[6];
-            String apellido2 = vector[7];
-
-            return new Persona(ced, codElec, genero.charAt(0), caducidad, junta, nombre, apellido1, apellido2);
+            return new Persona(ced, codElec, genero.charAt(0), "", "", "", "", "");
         } else {
             return null;
         }
     }
 
-    public void read(int numHilo) throws IOException {
+    public void read(int numHilo) throws IOException, Exception {
         final int I = 10;
         int j = 0;
         for (int i = 0; i < numHilo; i++) {
             buffer.readLine();
         }
-        
+
         Persona pers = readLine();
         j++;
-        while (pers != null || j <= I) {
-            ArrayManager array = ArrayManager.getInstance();
-            array.agregar(pers);
+        Distrito dist = listD.buscarPersona(pers.getCodElec());
+        while(pers != null || j <= I) {
+            if (dist != null) {
+                String provincia = dist.getProvincia();
+                String cantons = dist.getCanton();
+                existeProvincia(provincia, pers.getGenero());
+                existeCanton(cantons, pers.getGenero());
+            }
             pers = readLine();
             j++;
         }
         for (int i = 0; i < 60; i++) {
             buffer.readLine();
         }
-//        if (j <= I) {
-//            pers = readLine();
-//            while (pers != null) {
-//                ArrayManager array = ArrayManager.getInstance();
-//                array.agregar(pers);
-//            }
-//        }
+    }
+
+    public synchronized void existeProvincia(String name, char genero) {
+        boolean encontrado = false;
+        for (int i = 0; i < provincias.size(); i++) {
+            if (canton.get(i) != null && name.equalsIgnoreCase(provincias.get(i).getNombre())) {
+                encontrado =true;
+                if (genero == 'f') {
+                    provincias.get(i).aumentarF();
+                } else {
+                    provincias.get(i).aumentarF();
+                }
+            }
+        }
+        
+        if(!encontrado) {
+            ObjetoLugar obj = new ObjetoLugar(name);
+            if (genero == 'f') {
+                    obj.aumentarF();
+                } else {
+                    obj.aumentarF();
+                }
+            provincias.add(obj);
+        }
+        
+    }
+
+    public synchronized void existeCanton(String name, char genero) {
+        boolean encontrado = false;
+        for (int i = 0; i < canton.size(); i++) {
+            
+            if (canton.get(i) != null && name.equalsIgnoreCase(canton.get(i).getNombre())) {
+                encontrado =true;
+                if (genero == 'f') {
+                    canton.get(i).aumentarF();
+                } else {
+                    canton.get(i).aumentarF();
+                }
+            }
+        }
+        
+        if(!encontrado) {
+            ObjetoLugar obj = new ObjetoLugar(name);
+            if (genero == 'f') {
+                    obj.aumentarF();
+                } else {
+                    obj.aumentarF();
+                }
+            canton.add(obj);
+        }
+    }
+    
+    public String crearStringProvincias() {
+        String text = "";
+        for(ObjetoLugar provincia : provincias) {
+            if(provincia != null) {
+                text += provincia.toString();
+            }
+            
+        }
+        return text;
+    }
+    
+    public String crearStringCanton() {
+        String text = "";
+        for(ObjetoLugar canton : canton) {
+            if(canton != null) {
+                text += canton.toString() + "\n";
+            }
+        }
+        return text;
+    }
+
+    private class ObjetoLugar {
+
+        private String nombre;
+        private int Fem = 0, Masc = 0;
+
+        public ObjetoLugar(String nombre) {
+            this.nombre = nombre;
+
+        }
+
+        public String getNombre() {
+            return nombre;
+        }
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public int getFem() {
+            return Fem;
+        }
+
+        public void aumentarF() {
+            this.Fem++;
+        }
+
+        public int getMasc() {
+            return Masc;
+        }
+
+        public void aumentarM() {
+            this.Masc++;
+        }
+
+        @Override
+        public String toString() {
+            return "ObjetoLugar{" + "nombre=" + nombre + ", Fem=" + Fem + ", Masc=" + Masc + '}';
+        }
 
     }
 }//fin clase

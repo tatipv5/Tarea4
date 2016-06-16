@@ -6,6 +6,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -29,13 +30,22 @@ public class ArrayDistritos {
 //        Iterator iter=array.iterator();
 //        while(iter.hasNext()){
 //           text+= iter.next()+"\n";
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 120; i++) {
             if (array.get(i) != null) {
                 text += array.get(i) + "\n";
             }
         }
 
         return text;
+    }
+    
+    public Distrito buscarPersona(String num) throws Exception {
+        for (Distrito dist : array) {
+            if(dist != null && num.equalsIgnoreCase(dist.getCodElec())) {
+                return dist;
+            }
+        }
+        throw new Exception("No existe el codigo");
     }
 
     public synchronized void agregar(Distrito e) {

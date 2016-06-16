@@ -10,13 +10,12 @@ package modelo;
  * @author tati
  */
 public class Distrito {
-    String codElec, provincia, canton,distrito;
+    String codElec, provincia, canton;
 
-    public Distrito(String codElec, String provincia, String canton, String distrito) {
+    public Distrito(String codElec, String provincia, String canton) {
         this.codElec = codElec;
         this.provincia = provincia;
         this.canton = canton;
-        this.distrito = distrito;
     }
 
     public String getCodElec() {
@@ -42,18 +41,10 @@ public class Distrito {
     public void setCanton(String canton) {
         this.canton = canton;
     }
-
-    public String getDistrito() {
-        return distrito;
-    }
-
-    public void setDistrito(String distrito) {
-        this.distrito = distrito;
-    }
-
+    
     @Override
     public String toString() {
-        return "Distrito{" + "codElec=" + codElec + ", provincia=" + provincia + ", canton=" + canton + ", distrito=" + distrito + '}';
+        return "Distrito{" + "codElec=" + codElec + ", provincia=" + provincia + ", canton=" + canton+ '}';
     }
     
     
