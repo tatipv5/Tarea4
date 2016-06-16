@@ -5,6 +5,7 @@
  */
 package archivos;
 
+import hilos.Lock;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import modelo.ArrayDistritos;
 import modelo.Distrito;
 import modelo.Persona;
+import static sun.misc.GThreadHelper.lock;
 
 /**
  *
@@ -52,17 +54,40 @@ public class Leer {
         }
     }
 
-    public void read(int numHilo) throws IOException, Exception {
-        final int I = 10;
-        int j = 0;
-        for (int i = 0; i < numHilo; i++) {
-            buffer.readLine();
-        }
-
+//    public void read(int numHilo) throws IOException, Exception {
+//        final int I = 10;
+//        int j = 0;
+//        for (int i = 0; i < numHilo; i++) {
+//            buffer.readLine();
+//        }
+//
+//        Persona pers = readLine();
+//        j++;
+//
+//        while (pers != null) {
+//            if (j > I) {
+//                pers = null;
+//            } else {
+//                Distrito dist = listD.buscarPersona(pers.getCodElec());
+//                if (dist != null) {
+//                    String provincia = dist.getProvincia();
+//                    String cantons = dist.getCanton();
+//                    existeProvincia(provincia, pers.getGenero());
+//                    existeCanton(cantons, pers.getGenero());
+//                }
+//                pers = readLine();
+//                j++;
+//            }
+//        }
+//        for (int i = 0; i < 60; i++) {
+//            buffer.readLine();
+//        }
+//    }
+    public void read(Lock lock) throws IOException, Exception {
+        lock.lock();
         Persona pers = readLine();
-        j++;
-        Distrito dist = listD.buscarPersona(pers.getCodElec());
-        while(pers != null || j <= I) {
+        while (pers != null) {
+            Distrito dist = listD.buscarPersona(pers.getCodElec());
             if (dist != null) {
                 String provincia = dist.getProvincia();
                 String cantons = dist.getCanton();
@@ -70,44 +95,40 @@ public class Leer {
                 existeCanton(cantons, pers.getGenero());
             }
             pers = readLine();
-            j++;
         }
-        for (int i = 0; i < 60; i++) {
-            buffer.readLine();
-        }
+        lock.unlock();
     }
 
     public synchronized void existeProvincia(String name, char genero) {
         boolean encontrado = false;
         for (int i = 0; i < provincias.size(); i++) {
             if (canton.get(i) != null && name.equalsIgnoreCase(provincias.get(i).getNombre())) {
-                encontrado =true;
-                if (genero == 'f') {
+                encontrado = true;
+                if (genero == '2') {
                     provincias.get(i).aumentarF();
                 } else {
-                    provincias.get(i).aumentarF();
+                    provincias.get(i).aumentarM();
                 }
             }
         }
-        
-        if(!encontrado) {
+
+        if (!encontrado) {
             ObjetoLugar obj = new ObjetoLugar(name);
-            if (genero == 'f') {
-                    obj.aumentarF();
-                } else {
-                    obj.aumentarF();
-                }
+            if (genero == '1') {
+                obj.aumentarF();
+            } else {
+                obj.aumentarM();
+            }
             provincias.add(obj);
         }
-        
     }
 
     public synchronized void existeCanton(String name, char genero) {
         boolean encontrado = false;
         for (int i = 0; i < canton.size(); i++) {
-            
+
             if (canton.get(i) != null && name.equalsIgnoreCase(canton.get(i).getNombre())) {
-                encontrado =true;
+                encontrado = true;
                 if (genero == 'f') {
                     canton.get(i).aumentarF();
                 } else {
@@ -115,33 +136,33 @@ public class Leer {
                 }
             }
         }
-        
-        if(!encontrado) {
+
+        if (!encontrado) {
             ObjetoLugar obj = new ObjetoLugar(name);
             if (genero == 'f') {
-                    obj.aumentarF();
-                } else {
-                    obj.aumentarF();
-                }
+                obj.aumentarF();
+            } else {
+                obj.aumentarF();
+            }
             canton.add(obj);
         }
     }
-    
+
     public String crearStringProvincias() {
         String text = "";
-        for(ObjetoLugar provincia : provincias) {
-            if(provincia != null) {
+        for (ObjetoLugar provincia : provincias) {
+            if (provincia != null) {
                 text += provincia.toString();
             }
-            
+
         }
         return text;
     }
-    
+
     public String crearStringCanton() {
         String text = "";
-        for(ObjetoLugar canton : canton) {
-            if(canton != null) {
+        for (ObjetoLugar canton : canton) {
+            if (canton != null) {
                 text += canton.toString() + "\n";
             }
         }

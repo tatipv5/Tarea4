@@ -57,13 +57,18 @@ public class Controlador {
             hilo4.start();
             hilo5.start();
             hilo6.start();
-            int contador2 = 0;
-            while (contador< 6) {
-                contador2++;
-                if(contador2 == 2000) {
-                System.out.println("Esperando...");
-                }
-            }
+        try {
+            //            int contador2 = 1;
+//            while (contador< 6) {
+////                contador2++;
+////                if(contador2 == 1) {
+////                System.out.println("Esperando...");
+////                }
+//            }
+hilo1.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void aumentarContador(Thread t) {
